@@ -24,10 +24,15 @@ Office.onReady((info) => {
 export async function insertParagraph() {
     await Word.run(async (context) => {
         const docBody = context.document.body;
+        //文首添加
         docBody.insertParagraph(
             "Office has several versions, including Office 2016, Microsoft 365 subscription, and Office on the web.",
             "Start"
         );
+        //文末添加
+        docBody.insertParagraph("233333", "End");
+
+
         await context.sync();
     }).catch(function (error) {
         console.log("Error: " + error);
