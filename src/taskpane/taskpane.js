@@ -18,10 +18,28 @@ Office.onReady((info) => {
         document.getElementById("app-body").style.display = "flex";
         document.getElementById("run").onclick = run;
         document.getElementById("run1").onclick = run;
+        document.getElementById("apply-style").onclick = applyStyle;
     }
 });
 
-export async function insertParagraph() {
+async function applyStyle() {
+    await Word.run(async (context) => {
+
+        // TODO1: Queue commands to style text.
+        const firstParagraph = context.document.body.paragraphs.getFirst();
+        firstParagraph.styleBuiltIn = Word.Style.intenseReference;
+
+
+        await context.sync();
+    })
+        .catch(function (error) {
+            console.log("Error: " + error);
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
+        });
+}
+async function insertParagraph() {
     await Word.run(async (context) => {
         const docBody = context.document.body;
         //文首添加
