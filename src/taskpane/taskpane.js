@@ -7,13 +7,21 @@
 
 Office.onReady((info) => {
     if (info.host === Office.HostType.Word) {
+        // Determine if the user's version of Office supports all the Office.js APIs that are used in the tutorial.
+        if (!Office.context.requirements.isSetSupported('WordApi', '1.3')) {
+            console.log('Sorry. The tutorial add-in uses Word.js APIs that are not available in your version of Office.');
+        }
+        // Assign event handlers and other initialization logic.
+        document.getElementById("insert-paragraph").onclick = insertParagraph;
+
         document.getElementById("sideload-msg").style.display = "none";
         document.getElementById("app-body").style.display = "flex";
-        document.getElementById("insert-paragraph").onclick = insertParagraph;
+        document.getElementById("run").onclick = run;
+        document.getElementById("run1").onclick = run;
     }
 });
 
-async function insertParagraph() {
+export async function insertParagraph() {
     await Word.run(async (context) => {
         const docBody = context.document.body;
         docBody.insertParagraph(
