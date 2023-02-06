@@ -19,8 +19,26 @@ Office.onReady((info) => {
         document.getElementById("run").onclick = run;
         document.getElementById("run1").onclick = run;
         document.getElementById("apply-style").onclick = applyStyle;
+        document.getElementById("insert-text-into-range").onclick = insertTextIntoRange;
     }
 });
+
+async function applyCustomStyle() {
+    await Word.run(async (context) => {
+
+        // TODO1: Queue commands to apply the custom style.
+        const lastParagraph = context.document.body.paragraphs.getLast();
+        lastParagraph.style = "MyCustomStyle";
+
+        await context.sync();
+    })
+        .catch(function (error) {
+            console.log("Error: " + error);
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
+        });
+}
 
 async function applyStyle() {
     await Word.run(async (context) => {
@@ -67,7 +85,8 @@ export async function run() {
          */
 
         // insert a paragraph at the end of the document.
-        const paragraph = context.document.body.insertParagraph("Hello World", Word.InsertLocation.end);
+        const paragraph = context.document.body.insertParagraph("Hello World",
+            Word.InsertLocation.end);
 
         // change the paragraph color to blue.
         paragraph.font.color = "blue";
